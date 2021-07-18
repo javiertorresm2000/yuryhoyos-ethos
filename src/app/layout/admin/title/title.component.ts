@@ -25,7 +25,7 @@ export class TitleComponent {
           });
         } while (currentRoute);
         if (title !== undefined ) {
-          this.titleService.setTitle('Ethos Perú');
+          this.titleService.setTitle('Ethos Control');
         }
       });
   }
