@@ -1,0 +1,274 @@
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-card [title]="'Empresas'" [classHeader]="false" [cardOptionBlock]="true">
+                <div *ngIf="gridPage">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-success ripple light" (click)="create()">Agregar
+                                Empresa</button>
+                            <label class="dt-cust-search f-right">
+                                <div class="form-group">
+                                    <input type='text' class="form-control form-control-round input-sm m-l-10"
+                                        placeholder='Buscar' (keyup)='updateFilter($event)' />
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <ngx-datatable #table class='data-table' [columnMode]="'force'" [headerHeight]="50"
+                        [footerHeight]="50" [rowHeight]="'auto'" [limit]="25" [rows]='rowsFilter'>
+                        <ngx-datatable-column name="#" prop="id" [maxWidth]="100"></ngx-datatable-column>
+                        <ngx-datatable-column name="Empresa" prop="name"></ngx-datatable-column>
+                        <ngx-datatable-column name="RUC" prop="ruc"></ngx-datatable-column>
+                        <ngx-datatable-column name="Usuario">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                let-row="row">
+                                {{ row.user_first_name }} {{ row.user_last_name }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Activo" [maxWidth]="150">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                let-row="row">
+                                <ui-switch class="js-success" color="#2ecc71" switchColor="#fff" size="medium"
+                                    (change)="changeStatus(row)" [checked]="!!row.enabled"></ui-switch>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Fecha" [maxWidth]="200">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                let-row="row">
+                                {{ row.created_at | date: 'dd/MM/yyyy' }}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Opciones" [maxWidth]="150">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                let-row="row" let-group="group">
+                                <button (click)="edit(row)" placement="bottom" ngbTooltip="Editar" style="color:#333;"
+                                    class="btn btn-warning btn-icon">
+                                    <i style="margin-right:0;" class="icofont icofont-pencil"></i>
+                                </button>
+                                <button (click)="toAsssign(row)" placement="bottom" ngbTooltip="Asociar"
+                                    class="btn btn-info btn-icon">
+                                    <i style="margin-right:0;" class="icofont icofont-user"></i>
+                                </button>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+                <div *ngIf="!gridPage">
+                    <form [formGroup]="form" class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Compañia - Entidad</label>
+                                <input formControlName="name" type="text" class="form-control">
+                                <div class="messages text-danger"
+                                    *ngIf="form.controls.name.errors?.required && submitted">No puede estar vacio</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Sector</label>
+                                <select formControlName="sector_id" name="" id="" class="form-control">
+                                    <option *ngFor="let sector of sectors" value="{{sector.id}}">{{sector.name}}
+                                    </option>
+                                </select>
+                                <div class="messages text-danger"
+                                    *ngIf="form.controls.sector_id.errors?.required && submitted">No puede estar vacio
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">País</label>
+                                <select formControlName="country_id" (change)="enableRuc($event.target.value)" name="" id="" class="form-control">
+                                    <option *ngFor="let country of countries" value="{{country.id}}">{{country.name}}
+                                    </option>
+                                </select>
+                                <div class="messages text-danger"
+                                    *ngIf="form.controls.country_id.errors?.required && submitted">No puede estar vacio
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Ciudad</label>
+                                <input formControlName="city" type="text" class="form-control">
+                                <div class="messages text-danger"
+                                    *ngIf="form.controls.city.errors?.required && submitted">No puede estar vacio</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Ruta</label>
+                                <input formControlName="slug" type="text" class="form-control">
+                                <div class="messages text-danger" *ngIf="form.controls.slug.errors?.required && submitted">No puede estar vacio</div>
+                                <div class="messages text-danger" *ngIf="form.controls.slug.errors?.alpha15 && submitted">Deben ser máximo 15 caracteres alfanuméricos en minúscula</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">RUC - ID</label>
+                                <input formControlName="ruc" type="text" (keypress)="refreshExitent()" class="form-control">
+                                <div class="messages text-danger" *ngIf="form.controls.ruc.errors?.peru && submitted">Deben ser 11 caracteres numéricos</div>
+                                <div class="messages text-danger" *ngIf="form.controls.ruc.errors?.alpha15 && submitted">Deben ser máximo 15 caracteres alfanuméricos</div>
+                                <div class="messages text-danger" *ngIf="ruccer && submitted">Este RUC - ID ya existe</div>
+                                
+                            </div>
+                            <div class="form-group">
+                                <label for="">Rubro</label>
+                                <select formControlName="bussiness_id" name="" id="" class="form-control">
+                                    <option *ngFor="let bussiness of bussinesses" value="{{bussiness.id}}">
+                                        {{bussiness.name}}</option>
+                                </select>
+                                <div class="messages text-danger"
+                                    *ngIf="form.controls.bussiness_id.errors?.required && submitted">No puede estar
+                                    vacio</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Departamento</label>
+                                <input formControlName="department" type="text" class="form-control">
+                                <div class="messages text-danger"
+                                    *ngIf="form.controls.department.errors?.required && submitted">No puede estar vacio
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Teléfono</label>
+                                <input formControlName="phone" type="text" class="form-control">
+                                <div class="messages text-danger"
+                                    *ngIf="form.controls.phone.errors?.required && submitted">No puede estar vacio</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Dirección</label>
+                                <input formControlName="address" type="text" class="form-control">
+                                <div class="messages text-danger"
+                                    *ngIf="form.controls.address.errors?.required && submitted">No puede estar vacio
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button (click)="backToCompanies()" class="btn btn-secondary"
+                                        [disabled]="saveBtn">Volver</button>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <button (click)="assignUser()" class="btn btn-link" [disabled]="saveBtn || forEdit" *ngIf="!forEdit">Asociar
+                                        Usuario</button>
+                                    <button (click)="save()" class="btn btn-primary"
+                                        [disabled]="saveBtn">Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </app-card>
+        </div>
+    </div>
+</div>
+
+<app-modal-basic #modalLarge [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Asociar usuario</h4>
+        <button type="button" class="close basic-close" (click)="modalLarge.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="app-modal-body">
+        <form class="form-material pt-3" [formGroup]="formUser" (ngSubmit)="create()">
+            <h5>Usuario Existente</h5>
+<br>
+            <div class="form-group form-default">
+                <select (change)="selectAExitUser($event.target.value)" formControlName="id" name="select" class="form-control"
+                    style="border-bottom: 1px solid #ccc;">
+                    <option *ngFor="let user of users" value="{{user.id}}">{{user.first_name}} {{user.last_name}}
+                    </option>
+                </select>
+                <div class="messages text-danger" *ngIf="form.controls.id.errors?.required && submitted">Debes de
+                    seleccionar una opción</div>
+            </div>
+
+<br>
+            <br>
+            <h5>Agregar Nuevo</h5>
+
+            <br>
+            <div class="form-group form-default">
+                <input type="text" formControlName="first_name" class="form-control" required="">
+                <span class="form-bar"></span>
+                <label class="float-label">Nombre</label>
+                <div class="messages text-danger"
+                    *ngIf="formUser.controls.first_name.errors?.required && submittedUser">No puede estar vacio</div>
+            </div>
+            <div class="form-group form-default">
+                <input type="text" formControlName="last_name" class="form-control" required="">
+                <span class="form-bar"></span>
+                <label class="float-label">Apellido</label>
+                <div class="messages text-danger" *ngIf="formUser.controls.last_name.errors?.required && submittedUser">
+                    No puede estar vacio</div>
+            </div>
+            <div class="form-group form-default">
+                <input type="text" formControlName="email" class="form-control" required="">
+                <span class="form-bar"></span>
+                <label class="float-label">Correo Electrónico (exa@gmail.com)</label>
+                <div class="messages text-danger" *ngIf="formUser.controls.email.errors?.required && submittedUser">No
+                    puede estar vacio</div>
+                <div class="messages text-danger" *ngIf="formUser.controls.email.errors?.email && submittedUser">Debe
+                    ser un correo válido</div>
+                    <div class="messages text-danger" *ngIf="emailer && submittedUser">Este correo ya existe</div>
+            </div>
+            <div class="form-group form-default" [class.form-static-label]="formUser.controls.generate.value">
+                <input type="password" formControlName="password" class="form-control" required="">
+                <span class="form-bar"></span>
+                <label class="float-label">Contraseña</label>
+                <div class="messages text-danger" *ngIf="formUser.controls.password.errors?.required && submittedUser">No
+                    puede estar vacio</div>
+            </div>
+            <div class="border-checkbox-section">
+                <div class="border-checkbox-group border-checkbox-group-primary">
+                    <input class="border-checkbox" (click)="generatePassword()" formControlName="generate"
+                        type="checkbox" id="checkbox1">
+                    <label class="border-checkbox-label" for="checkbox1">Generar contraseña</label>
+                </div>
+            </div>
+            <div class="border-checkbox-section">
+                <div class="border-checkbox-group border-checkbox-group-primary">
+                    <input class="border-checkbox" type="checkbox" formControlName="send_credentials" id="checkbox2">
+                    <label class="border-checkbox-label" for="checkbox2">Enviar credenciales al correo
+                        electrónico</label>
+                </div>
+            </div>
+
+            <input type="hidden" formControlName="id">
+        </form>
+    </div>
+    <div class="app-modal-footer">
+        <button type="button" class="btn btn-default ripple" (click)="modalLarge.hide()">Cerrar</button>
+        <button type="button" class="btn btn-primary ripple light" [disabled]="saveBtn"
+            (click)="saveAndAssignUser()">Guardar y Asociar</button>
+    </div>
+</app-modal-basic>
+
+<app-modal-basic #assign [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Asociar usuario</h4>
+        <button type="button" class="close basic-close" (click)="assign.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="app-modal-body">
+        <form class="form-material pt-3" [formGroup]="formAssign">
+            <h5>Usuario</h5>
+
+            <div class="form-group form-default">
+                <select formControlName="user_id" name="select" class="form-control"
+                    style="border-bottom: 1px solid #ccc;">
+                    <option *ngFor="let user of users" value="{{user.id}}">{{user.first_name}} {{user.last_name}}
+                    </option>
+                </select>
+                <div class="messages text-danger" *ngIf="formAssign.controls.user_id.errors?.required && submittedAssign">Debes de
+                    seleccionar una opción</div>
+            </div>
+
+            <input type="hidden" formControlName="company_id">
+        </form>
+    </div>
+    <div class="app-modal-footer">
+        <button type="button" class="btn btn-default ripple" (click)="assign.hide()">Cerrar</button>
+        <button type="button" class="btn btn-primary ripple light" [disabled]="saveBtn"
+            (click)="doAssignUser()">Asociar</button>
+    </div>
+</app-modal-basic>

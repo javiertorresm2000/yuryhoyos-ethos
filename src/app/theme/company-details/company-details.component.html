@@ -1,0 +1,52 @@
+<div class="page-body">
+
+    <div class="row">
+        <div class="col-md-6">
+            <app-card [title]="'Nombre de empresa / Logo'" [cardOptionBlock]="true">
+                <div>
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-form-label">Nombre Empresa</label>
+                        <div class="col-sm-12">
+                            <input [(ngModel)]="name" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-form-label">Logo</label>
+                        <div class="col-sm-8">
+                            <input #myInput type="file" ng2FileSelect [uploader]="uploader" class="form-control">
+                            
+                        </div>
+                        <div class="col-sm-4">
+                            <button class="btn btn-danger" (click)="removeAll()">Remover</button>
+                        </div>
+                    </div>
+                    <small>Peso máximo permitido 1MB.</small>
+                    <br>
+                    <br><br>
+                    <p>Miniatura</p>
+
+                    <div class="text-center">
+                        <img [src]="company.logo" class="img-fluid" alt="">
+                    </div>
+
+                    <button type="button" class="btn btn-primary ripple light mt-4" (click)="upload()">Guardar Cambios</button>
+                </div>
+            </app-card>
+        </div>
+        <div class="col-md-6">
+            <app-card [title]="'Mensaje en bienvenida'" [cardOptionBlock]="true">
+                <p>
+                    Mensaje en bienvenida para los visitantes al sitio de denuncias de su empresa
+                </p>
+                <quill-editor [(ngModel)]="editorContent" [options]="editorConfig" (blur)="onEditorBlured($event)"
+                    (focus)="onEditorFocused($event)" (ready)="onEditorCreated($event)"
+                    (change)="onContentChanged($event)">
+                </quill-editor>
+                <br>
+                <button type="button" (click)="saveMessage()" class="btn btn-primary ripple light mt-4">Guardar Cambios</button>
+            </app-card>
+        </div>
+    </div>
+
+</div>

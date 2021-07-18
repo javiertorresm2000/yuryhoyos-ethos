@@ -1,0 +1,47 @@
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-card [title]="'Ajustes generales - Correo'" [classHeader]="false" [cardOptionBlock]="true">
+                <form class="form-material" [formGroup]="form">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Correo de recuperación de contraseñas</h5>
+                        <br>
+                        <div class="form-group">
+                            <label for="">Nombre</label>
+                            <input type="text" formControlName="restore_email_name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Email</label>
+                            <input type="text" formControlName="restore_email_address" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Password</label>
+                            <input type="password" formControlName="restore_email_password" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Correo de notificaciones</h5>
+                        <br>
+                        <div class="form-group">
+                            <label for="">Nombre</label>
+                            <input type="text" formControlName="notification_email_name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Email</label>
+                            <input type="text" formControlName="notification_email_address" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Password</label>
+                            <input type="password" formControlName="notification_email_password" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <button (click)="save()" class="btn btn-primary">Guardar Cambios</button>
+                    </div>
+                </div>
+            </form>
+            </app-card>
+        </div>
+    </div>
+</div>

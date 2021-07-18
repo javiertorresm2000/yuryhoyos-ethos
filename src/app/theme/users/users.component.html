@@ -1,0 +1,104 @@
+<div class="page-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <app-card [title]="'Usuarios'" [classHeader]="false" [cardOptionBlock]="true">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-success ripple light" (click)="createUser()">Agregar
+                                usuario</button>
+                            <app-modal-basic #modalLarge [dialogClass]="'modal-lg'">
+                                <div class="app-modal-header">
+                                    <h4 class="modal-title">Nuevo usuario</h4>
+                                    <button type="button" class="close basic-close" (click)="modalLarge.hide()">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="app-modal-body">
+                                    <form class="form-material" [formGroup]="form" (ngSubmit)="create()">
+                                        <div class="form-group form-default">
+                                            <input type="text" formControlName="first_name" class="form-control" required="">
+                                            <span class="form-bar"></span>
+                                            <label class="float-label">Nombre</label>
+                                            <div class="messages text-danger" *ngIf="form.controls.first_name.errors?.required && submitted">No puede estar vacio</div>
+                                        </div>
+                                        <div class="form-group form-default">
+                                                <input type="text" formControlName="last_name" class="form-control" required="">
+                                                <span class="form-bar"></span>
+                                                <label class="float-label">Apellido</label>
+                                                <div class="messages text-danger" *ngIf="form.controls.last_name.errors?.required && submitted">No puede estar vacio</div>
+                                            </div>
+                                        <div class="form-group form-default">
+                                            <input type="text" formControlName="email" class="form-control" required="">
+                                            <span class="form-bar"></span>
+                                            <label class="float-label">Correo Electrónico (exa@gmail.com)</label>
+                                            <div class="messages text-danger" *ngIf="form.controls.email.errors?.required && submitted">No puede estar vacio</div>
+                                            <div class="messages text-danger" *ngIf="form.controls.email.errors?.email && submitted">Debe ser un correo válido</div>
+                                            <div class="messages text-danger" *ngIf="emailer && submitted">Este correo ya existe</div>
+                                        </div>
+                                        <div class="form-group form-default" [class.form-static-label]="form.controls.generate.value">
+                                            <input type="password" formControlName="password" class="form-control" required="">
+                                            <span class="form-bar"></span>
+                                            <label class="float-label">Contraseña</label>
+                                            <div class="messages text-danger" *ngIf="form.controls.password.errors?.empty && submitted">No puede estar vacio</div>
+                                        </div>
+                                        <div class="border-checkbox-section">
+                                            <div class="border-checkbox-group border-checkbox-group-primary">
+                                                <input class="border-checkbox" (click)="generatePassword()" formControlName="generate" type="checkbox" id="checkbox1">
+                                                <label class="border-checkbox-label" for="checkbox1">Generar contraseña</label>
+                                            </div>
+                                        </div>
+                                        <div class="border-checkbox-section">
+                                            <div class="border-checkbox-group border-checkbox-group-primary">
+                                                <input class="border-checkbox" type="checkbox" formControlName="send_credentials" id="checkbox2">
+                                                <label class="border-checkbox-label" for="checkbox2">Enviar credenciales al correo electrónico</label>
+                                            </div>
+                                        </div>
+
+                                        <input type="hidden" formControlName="id">
+                                    </form>
+                                </div>
+                                <div class="app-modal-footer">
+                                    <button type="button" class="btn btn-default ripple" (click)="modalLarge.hide()">Cerrar</button>
+                                    <button type="button" class="btn btn-primary ripple light" (click)="create()">Guardar</button>
+                                </div>
+                            </app-modal-basic>
+                            <label class="dt-cust-search f-right">
+                                <div class="form-group">
+                                    <input type='text' class="form-control form-control-round input-sm m-l-10"
+                                        placeholder='Buscar' (keyup)='updateFilter($event)' />
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <ngx-datatable
+                        #table
+                        class='data-table'
+                        [columnMode]="'force'"
+                        [headerHeight]="50"
+                        [footerHeight]="50"
+                        [rowHeight]="'auto'"
+                        [limit]="25"
+                        [rows]='rowsFilter'>
+                        <ngx-datatable-column name="Nombre" prop="first_name"></ngx-datatable-column>
+                        <ngx-datatable-column name="Apellido" prop="last_name"></ngx-datatable-column>
+                        <ngx-datatable-column name="Correo" prop="email"></ngx-datatable-column>
+                        <ngx-datatable-column name="Empresa" prop="company"></ngx-datatable-column>
+                        <ngx-datatable-column name="Activo" [maxWidth]="150">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                let-row="row">
+                                <ui-switch class="js-success" color="#2ecc71" switchColor="#fff" size="medium"
+                                    (change)="changeStatus(row)" [disabled]="!row.company_id || !!row.enabled" [checked]="!!row.enabled"></ui-switch>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Opciones">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+                                <button (click)="edit(row)" placement="bottom" ngbTooltip="Editar" class="btn btn-warning btn-icon" style="color: #333; margin-right: .5em;">
+                                    <i style="margin-right:0;" class="icofont icofont-pencil"></i>
+                                </button>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </app-card>
+            </div>
+        </div>
+    </div>

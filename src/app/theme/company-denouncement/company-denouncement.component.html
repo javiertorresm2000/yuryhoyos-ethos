@@ -1,0 +1,262 @@
+<div class="page-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <app-card [title]="'Denuncias'" [classHeader]="false" [cardOptionBlock]="true">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button type="button" *ngIf="showCreateButton" class="btn btn-success ripple light" (click)="modalLarge.show()">Agregar
+                                Denuncia</button>
+                            <app-modal-basic #modalLarge [dialogClass]="'modal-lg'">
+                                <div class="app-modal-header">
+                                    <h4 class="modal-title">Nueva Denuncia</h4>
+                                    <button type="button" class="close basic-close" (click)="modalLarge.hide()">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="app-modal-body">
+                                    <form class="form-material" [formGroup]="form" (ngSubmit)="create()">
+                                        <perfect-scrollbar class="overflow-container" [style.width]="'100%'" [style.height]="'350px'">
+                                            <wizard #wizard class="arc-wizard">
+                                                    <wizard-step stepTitle="Basico">
+                                                      <div class="">
+                                                        <div>
+                                                            <div class="form-group form-default">
+                                                                <select formControlName="category_id" name="select1" class="form-control" style="border-bottom: 1px solid #ccc;" required="">
+                                                                    <option *ngFor="let rol of categoryRows" [value]="rol.id">{{rol.name}}</option>
+                                                                </select>
+                                                                <label class="float-label" for="select1">Categoría</label>
+                                                                <div class="messages text-danger" *ngIf="form.controls.category_id.errors?.required && step1">Debes de seleccionar una opción</div>
+                                                            </div>
+                                                            <div class="form-group form-default">
+                                                                <select formControlName="source_id" name="select1" class="form-control" style="border-bottom: 1px solid #ccc;" required="">
+                                                                    <option *ngFor="let rol of sourceRows" [value]="rol.id">{{rol.name}}</option>
+                                                                </select>
+                                                                <label class="float-label" for="select1">Tipo de Ingreso</label>
+                                                                <div class="messages text-danger" *ngIf="form.controls.source_id.errors?.required && step1">Debes de seleccionar una opción</div>
+                                                            </div>
+                                                            <div class="form-group form-default">
+                                                                <select formControlName="area_id" name="select1" class="form-control" style="border-bottom: 1px solid #ccc;" required="">
+                                                                    <option *ngFor="let rol of areaRows" [value]="rol.id">{{rol.name}}</option>
+                                                                </select>
+                                                                <label class="float-label" for="select1">Área</label>
+                                                                <div class="messages text-danger" *ngIf="form.controls.area_id.errors?.required && step1">Debes de seleccionar una opción</div>
+                                                            </div>
+                                                            <div class="form-group form-default">
+                                                                <select formControlName="office_id" name="select1" class="form-control" style="border-bottom: 1px solid #ccc;" required="">
+                                                                    <option *ngFor="let rol of officeRows" [value]="rol.id">{{rol.name}}</option>
+                                                                </select>
+                                                                <label class="float-label" for="select1">Sucursal </label>
+                                                                <div class="messages text-danger" *ngIf="form.controls.office_id.errors?.required && step1">Debes de seleccionar una opción</div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="btn-group mt-10">
+                                                          <button type="button" class="btn btn-primary btn-sm" (click)="wizzardStep1()">Continuar</button>
+                                                        </div>
+                                                      </div>
+                                                    </wizard-step>
+                                                    <wizard-step stepTitle="Detalles">
+                                                      <div class="">
+                                                        <div>
+                                                            <div class="form-group form-default">
+                                                                <textarea formControlName="people" class="form-control" required=""></textarea>
+                                                                <label class="float-label">Personas Denunciadas</label>
+                                                                <div class="messages text-danger" *ngIf="form.controls.people.errors?.required && step2">No puede estar vacio</div>
+                                                              </div>
+                                                            <div class="form-group form-default">
+                                                                <textarea formControlName="description" class="form-control" required=""></textarea>
+                                                                <label class="float-label">Descripción</label>
+                                                                <div class="messages text-danger" *ngIf="form.controls.description.errors?.required && step2">No puede estar vacio</div>
+                                                              </div>
+
+                                                        </div>
+
+                                                        <div class="btn-group mt-10">
+                                                                <button type="button" class="btn btn-secondary btn-sm" previousStep>Volver</button>
+                                                                <button type="button" class="btn btn-primary btn-sm" (click)="wizzardStep2()">Continuar</button>
+                                                              </div>
+                                                      </div>
+                                                    </wizard-step>
+                                                    <wizard-step stepTitle="Evidencia">
+                                                        <div class="">
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    <button (click)="fileInput.click()" class="btn btn-success">Subir archivo</button>
+                                                                    <input #fileInput style="display: none;" type="file" ng2FileSelect [uploader]="uploader" class="form-control">
+                                                                </div>
+                                                                <div class="col-md-9 text-right">
+                                                                    
+                                                                    <p>
+                                                                        <span class="label label-danger">Solo podras subir archivos que no superen 10MB</span>
+                                                                    </p>
+                                                                    <p>
+                                                                        <span class="label label-danger">No estan permitidos los archivos .EXE</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <br><br>
+                                                            
+                                
+                                                            <p><strong>
+                                                                Archivos disponibles para subir: {{ uploader.options.queueLimit - uploader?.queue?.length }}
+                                                            </strong></p>
+                                            <div class="table-responsive">
+                                              <table class="table">
+                                                <thead>
+                                                <tr>
+                                                  <th width="50%">Nombre</th>
+                                                  <th>Tamaño</th>
+                                                  <th>Acciones</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr *ngFor="let item of uploader.queue">
+                                                  <td><strong>{{ item?.file?.name }}</strong></td>
+                                                  <td>{{ item.file.size/1024/1024 | number:'.1' }} MB</td>
+                                                  <td nowrap>
+                                                    <button type="button" class="btn btn-danger btn-sm ripple light" (click)="item.remove()">
+                                                      <span class="fa fa-trash"></span> Remover
+                                                    </button>
+                                                  </td>
+                                                </tr>
+                                                </tbody>
+                                              </table>
+                                            </div>
+                                
+                                                            <div class="btn-group mt-10">
+                                                                <button type="button" class="btn btn-secondary btn-sm" previousStep>Volver</button>
+                                                                <button type="button" class="btn btn-primary btn-sm"
+                                                                    (click)="wizzardStep3()">Continuar</button>
+                                                            </div>
+                                                        </div>
+                                                    </wizard-step>
+                                                    <wizard-step stepTitle="Denunciante">
+                                                      <div class="">
+                                                        <div>
+                                                                <div class="form-group form-default">
+                                                                        <select formControlName="relationship" name="select" required="" class="form-control" style="border-bottom: 1px solid #ccc;">
+                                                                            <option value="Interno">Interno</option>
+                                                                            <option value="Externo">Externo</option>
+                                                                        </select>
+                                                                        <label class="float-label">Relación con la empresa </label>
+                                                                        <div class="messages text-danger" *ngIf="form.controls.relationship.errors?.required && sended">Debes de seleccionar una opción</div>
+                                                                    </div>
+
+                                                                <div class="form-group form-default">
+                                                                        <input type="text" formControlName="email" class="form-control" required="">
+                                                                        <span class="form-bar"></span>
+                                                                        <label class="float-label">Correo Electrónico (exa@gmail.com)</label>
+                                                                        <div class="messages text-danger" *ngIf="form.controls.email.errors?.required && sended">No puede estar vacio</div>
+                                                                        <div class="messages text-danger" *ngIf="form.controls.email.errors?.email && sended">Debe ser un correo válido</div>
+                                                                    </div>
+                                                                    <div class="border-checkbox-section">
+                                                                            <div class="border-checkbox-group border-checkbox-group-primary">
+                                                                                <input class="border-checkbox" (click)="sendAnonymus()" type="checkbox" id="checkbox1">
+                                                                                <label class="border-checkbox-label" for="checkbox1">Denuncia Anónima</label>
+                                                                            </div>
+                                                                        </div>
+                                                            <br>
+                                                            <hr>
+                                                            <br>
+                                                            <div class="form-group form-default">
+                                                                <input type="text" formControlName="first_name" class="form-control" required="">
+                                                                <span class="form-bar"></span>
+                                                                <label class="float-label">Nombre</label>
+                                                                <div class="messages text-danger" *ngIf="form.controls.first_name.errors?.required && sended">No puede estar vacio</div>
+                                                            </div>
+                                                            <div class="form-group form-default">
+                                                                    <input type="text" formControlName="last_name" class="form-control" required="">
+                                                                    <span class="form-bar"></span>
+                                                                    <label class="float-label">Apellido</label>
+                                                                    <div class="messages text-danger" *ngIf="form.controls.last_name.errors?.required && sended">No puede estar vacio</div>
+                                                                </div>
+
+                                                                <div class="form-group form-default">
+                                                                        <input type="text" formControlName="job" class="form-control" required="">
+                                                                        <span class="form-bar"></span>
+                                                                        <label class="float-label">Cargo u ocupación</label>
+                                                                        <div class="messages text-danger" *ngIf="form.controls.job.errors?.required && sended">No puede estar vacio</div>
+                                                                    </div>
+
+                                                                    <div class="form-group form-default">
+                                                                            <input type="text" formControlName="phone" class="form-control" required="">
+                                                                            <span class="form-bar"></span>
+                                                                            <label class="float-label">Teléfono</label>
+                                                                            <div class="messages text-danger" *ngIf="form.controls.phone.errors?.required && sended">No puede estar vacio</div>
+                                                                        </div>
+
+
+                                                        </div>
+
+                                                        <div class="btn-group mt-10">
+                                                          <button type="button" class="btn btn-secondary btn-sm" previousStep>Volver</button>
+                                                          <button type="button" class="btn btn-success btn-sm" (click)="send()" [disabled]="submitted">Crear denuncia</button>
+                                                        </div>
+                                                      </div>
+                                                    </wizard-step>
+                                                  </wizard>
+                                                </perfect-scrollbar>
+                                    </form>
+                                </div>
+                                <div class="app-modal-footer">
+                                    <button type="button" class="btn btn-default ripple" (click)="modalLarge.hide()">Cerrar</button>
+                                </div>
+                            </app-modal-basic>
+                            <label class="dt-cust-search f-right">
+                                <div class="form-group">
+                                    <input type='text' class="form-control form-control-round input-sm m-l-10"
+                                        placeholder='Buscar' (keyup)='updateFilter($event)' />
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <ngx-datatable
+                        #table
+                        class='data-table'
+                        [columnMode]="'force'"
+                        [headerHeight]="50"
+                        [footerHeight]="50"
+                        [rowHeight]="'auto'"
+                        [limit]="25"
+                        [rows]='rowsFilter'>
+                        <ngx-datatable-column name="Código" prop="id"></ngx-datatable-column>
+                        <ngx-datatable-column name="Denunciante">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                {{row.first_name}} {{row.last_name}}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Tipo">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                <span class="label label-inverse-{{row.label_type}}">{{row.type}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Categoría" prop="category"></ngx-datatable-column>
+                        <ngx-datatable-column name="Descripción" prop="description"></ngx-datatable-column>
+                        <ngx-datatable-column name="Investigador">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                {{row.investigator_first_name}} {{row.investigator_last_name}}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Fecha">
+                          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                            {{ row.created_at | date: 'dd/MM/yyyy HH:mm' }}
+                          </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Motivo" prop="reason"></ngx-datatable-column>
+                        <ngx-datatable-column name="Estado">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                <span class="label label-{{row.state | state:'type'}}">{{row.state | state}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Opciones">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+                                <button (click)="see(row)" placement="bottom" ngbTooltip="Ver detalles" class="btn btn-info btn-icon">
+                                    <i style="margin-right:0;" class="icofont icofont-eye"></i>
+                                </button>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </app-card>
+            </div>
+        </div>
+    </div>

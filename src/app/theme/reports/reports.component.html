@@ -1,0 +1,158 @@
+<div class="page-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <app-card [title]="'Reportes de denuncias'" [classHeader]="false" [cardOptionBlock]="true">
+                    <form class="form-material" [formGroup]="form">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4 class="sub-title">Desde:</h4>
+                                <input formControlName="start" class="form-control" type="date" />
+                            </div>
+                            <div class="col-md-6">
+                                <h4 class="sub-title">Hasta:</h4>
+                                <input formControlName="end" class="form-control" type="date" />
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+    
+                            
+                            <div class="col-md-6">
+                                <h4 class="sub-title">Criticidad</h4>
+                                <ng-select formControlName="priority" [ngClass]="'ng-select'" [options]="priorityLevels"
+                                    [multiple]="true"></ng-select>
+                            </div>
+                            <div class="col-md-6">
+                                    <h4 class="sub-title">Estado</h4>
+                                    <ng-select formControlName="state" [ngClass]="'ng-select'" [options]="states"
+                                        [multiple]="true"></ng-select>
+                                </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                                <div class="col-md-12">
+                                        <br>
+                                        <br>
+                                            <h4 class="sub-title">Empresa:</h4>
+
+                                            <select formControlName="company_id" (change)="enableCompany($event.target.value)" name="" id="" class="form-control">
+                                                    <option *ngFor="let comapny of companies" value="{{comapny.value}}">{{comapny.label}}
+                                                    </option>
+                                                </select>
+
+                                                <br>
+                                                <br>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                        <h4 class="sub-title">Categoría:</h4>
+                                        <ng-select formControlName="category_id" [ngClass]="'ng-select'" [options]="categories"
+                                            [multiple]="true"></ng-select>
+                                    </div>
+
+                            <div class="col-md-6">
+                                <h4 class="sub-title">Medio de contacto</h4>
+                                <ng-select [ngClass]="'ng-select'" formControlName="source_id" [options]="sources"
+                                    [multiple]="true"></ng-select>
+                            </div>
+                            
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-md-6">
+                                <div class="pt-2">
+                                        <button (click)="download()" class="btn btn-lg btn-success">Exportar</button>
+                                    </div>
+                        </div>
+                        <div class="col-md-6">
+                                <div class="text-right pt-2">
+                                        <button (click)="clear()" class="btn btn-lg btn-secondary">Limpiar</button>
+                                        <button (click)="search()" class="btn btn-lg btn-primary">Buscar</button>
+                                    </div>
+                        </div>
+                    </div>
+                    
+                    <br>
+                    <br>
+                    <ngx-datatable #table class='data-table' 
+                    style="height: 600px; overflow-y:visible" 
+                    [scrollbarH]="true" 
+                    [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+                        [rowHeight]="'auto'" [limit]="25" [rows]='rowsFilter'>
+                        
+                        <ngx-datatable-column name="Código" prop="id"></ngx-datatable-column>
+    
+                        <ngx-datatable-column name="Fecha">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                let-row="row">
+                                {{ row.created_at | date: 'dd/MM/yyyy' }}
+                            </ng-template>
+                        </ngx-datatable-column>
+    
+                        <ngx-datatable-column name="Categoría" prop="category"></ngx-datatable-column>
+    
+                        <ngx-datatable-column name="Criticidad">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                let-row="row">
+                                
+    
+                                <span class="label label-inverse-{{row.label_priority}}">{{row.priority}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+    
+                        <ngx-datatable-column name="Denunciado" prop="people"></ngx-datatable-column>
+                        
+                        <ngx-datatable-column name="Denunciante">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                let-row="row">
+                                {{row.informer_first_name}} {{row.informer_last_name}} <span *ngIf="!row.informer_first_name"
+                                    class="label label-inverse-{{row.label_type}}">{{row.type}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Empresa" prop="company"></ngx-datatable-column>
+    
+                        <ngx-datatable-column name="Correo Denunciante">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                let-row="row">
+                                <span *ngIf="!!row.informer_first_name">{{row.informer_email}}</span>
+                            <span *ngIf="!row.informer_first_name"
+                                class="label label-inverse-{{row.label_type}}">{{row.type}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+    
+                        <ngx-datatable-column name="Sucursal" prop="office"></ngx-datatable-column>
+                        <ngx-datatable-column name="Area" prop="area"></ngx-datatable-column>
+    
+                        <ngx-datatable-column name="Investigador">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                let-row="row">
+                                {{row.investigator_first_name}} {{row.investigator_last_name}}
+                            </ng-template>
+                        </ngx-datatable-column>
+    
+    
+                        <ngx-datatable-column name="Días Transcurridos" prop="days"></ngx-datatable-column>
+    
+                        <ngx-datatable-column name="Estado">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                let-row="row">
+                                <span class="label label-{{row.state | state:'type'}}">{{row.state | state}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Opciones">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
+                                let-group="group">
+                                <button (click)="see(row)" placement="bottom" ngbTooltip="Ver detalles"
+                                    class="btn btn-info btn-icon">
+                                    <i style="margin-right:0;" class="icofont icofont-eye"></i>
+                                </button>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+    
+                </app-card>
+            </div>
+        </div>
+    </div>

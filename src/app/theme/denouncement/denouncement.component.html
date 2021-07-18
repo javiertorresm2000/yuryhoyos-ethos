@@ -1,0 +1,256 @@
+<app-modal-basic #modalLarge [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Nuevo comentario</h4>
+        <button type="button" class="close basic-close" (click)="modalLarge.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="app-modal-body">
+        <form class="form-material" [formGroup]="form" (ngSubmit)="save()">
+            <div class="form-group form-default">
+                <textarea formControlName="message" class="form-control" required=""></textarea>
+                <label class="float-label">Mensaje</label>
+                <div class="messages text-danger" *ngIf="form.controls.message.errors?.required && submitted">No puede
+                    estar vacio</div>
+            </div>
+            <div>
+                <div class="row">
+                                                                <div class="col-md-3">
+                                                                    <button (click)="fileInput.click()" class="btn btn-success">Subir archivo</button>
+                                                                    <input #fileInput style="display: none;" type="file" ng2FileSelect [uploader]="uploader" class="form-control">
+                                                                </div>
+                                                                <div class="col-md-9 text-right">
+                                                                    
+                                                                    <p>
+                                                                        <span class="label label-danger">Solo podras subir archivos que no superen 10MB</span>
+                                                                    </p>
+                                                                    <p>
+                                                                        <span class="label label-danger">No estan permitidos los archivos .EXE</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <br><br>
+                                                            
+                                
+                                                            <p><strong>
+                                                                Archivos disponibles para subir: {{ uploader.options.queueLimit - uploader?.queue?.length }}
+                                                            </strong></p>
+                                            <div class="table-responsive">
+                                              <table class="table">
+                                                <thead>
+                                                <tr>
+                                                  <th width="50%">Nombre</th>
+                                                  <th>Tamaño</th>
+                                                  <th>Acciones</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr *ngFor="let item of uploader.queue">
+                                                  <td><strong>{{ item?.file?.name }}</strong></td>
+                                                  <td>{{ item.file.size/1024/1024 | number:'.1' }} MB</td>
+                                                  <td nowrap>
+                                                    <button type="button" class="btn btn-danger btn-sm ripple light" (click)="item.remove()">
+                                                      <span class="fa fa-trash"></span> Remover
+                                                    </button>
+                                                  </td>
+                                                </tr>
+                                                </tbody>
+                                              </table>
+                                            </div>
+            </div>
+            <div class="border-checkbox-section">
+                <div class="border-checkbox-group border-checkbox-group-primary">
+                    <input class="border-checkbox" formControlName="visible" type="checkbox" id="checkbox1">
+                    <label class="border-checkbox-label" for="checkbox1">Visible por el denunciante</label>
+                </div>
+            </div>
+
+
+            <div class="border-checkbox-section">
+                <div class="border-checkbox-group border-checkbox-group-primary">
+                    <input class="border-checkbox" (click)="wait()" formControlName="wait" type="checkbox" id="checkbox2">
+                    <label class="border-checkbox-label" for="checkbox2">Esperar respuesta del denunciante</label>
+                </div>
+            </div>
+            <input type="hidden" formControlName="denounces_id">
+        </form>
+
+    </div>
+    <div class="app-modal-footer">
+        <button type="button" class="btn btn-default ripple" (click)="modalLarge.hide()">Cerrar</button>
+        <button type="button" class="btn btn-primary ripple light" [disabled]="sended" (click)="send()">Enviar</button>
+    </div>
+</app-modal-basic>
+<app-modal-basic #modalCloser [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Cerrar Denuncia</h4>
+        <button type="button" class="close basic-close" (click)="modalCloser.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="app-modal-body">
+        <form class="form-material" [formGroup]="formCloser" (ngSubmit)="close()">
+            <div class="form-group form-default">
+                <select formControlName="closing_reason_id" name="select1" class="form-control"
+                    style="border-bottom: 1px solid #ccc;" required="">
+                    <option *ngFor="let reason of reasonsToClose" [value]="reason.id">{{reason.name}}</option>
+                </select>
+                <label class="float-label" for="select1">Motivo</label>
+                <div class="messages text-danger"
+                    *ngIf="formCloser.controls.closing_reason_id.errors?.required && closerSubmitted">Debes de
+                    seleccionar una opción</div>
+            </div>
+            <div class="form-group form-default">
+                <textarea formControlName="closing_description" class="form-control" required=""></textarea>
+                <label class="float-label">Mensaje</label>
+                <div class="messages text-danger"
+                    *ngIf="formCloser.controls.closing_description.errors?.required && closerSubmitted">No puede estar
+                    vacio</div>
+            </div>
+            <input type="hidden" formControlName="denounces_id">
+        </form>
+
+    </div>
+    <div class="app-modal-footer">
+        <button type="button" class="btn btn-default ripple" (click)="modalCloser.hide()">Cerrar</button>
+        <button type="button" class="btn btn-secondary ripple light" [disabled]="closerSended"
+            (click)="close()">Cerrar Denuncia</button>
+    </div>
+</app-modal-basic>
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-card [title]="'Denuncia ' + denouncement.id" [cardOptionBlock]="true">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>
+                            <b>Denunciante:</b> {{ denouncement.anonymus }}
+                        </p>
+                        <p>
+                            <b>Correo de Denunciante:</b> {{ denouncement.anonymus_email }}
+                        </p>
+                        <div *ngIf="denouncement.informer_job">
+                            <p><b>Cargo:</b> {{ denouncement.informer_job }}</p>
+                            <p><b>Teléfono:</b> {{ denouncement.informer_phone }}</p>
+                            <p><b>Relación:</b> {{ denouncement.informer_relationship }}</p>
+                        </div>
+                        <p>
+                            <b>Categoria:</b> {{ denouncement.category }}
+                        </p>
+                        <p>
+                            <b>Tipo de Ingreso:</b> {{ denouncement.source }}
+                        </p>
+                        <p>
+                            <b>Area:</b> {{ denouncement.area }}
+                        </p>
+                        <p>
+                            <b>Sucursal: </b> {{ denouncement.office }}
+                        </p>
+                        <p>
+                            <b>Personas denunciadas:</b> {{ denouncement.people }}
+                        </p>
+                        <p>
+                            <b>Descripción: </b> {{ denouncement.description }}
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="mb-2"><b>Estado:</b>  <span class="label label-{{ denouncement.state | state:'type' }}">{{ denouncement.state | state }}</span></h4>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Asignar investigador:</label>
+                            <div class="col-sm-10">
+                                <select [disabled]="denouncement.investigator_id || denouncement.state=='closed' || denouncement.state=='desestimate'" [(ngModel)]="selectedUser" name="select2" class="form-control"
+                                    style="border-bottom: 1px solid #ccc;" required="">
+                                    <option *ngFor="let user of users" [value]="user.id">{{ user.first_name }} {{ user.last_name }}</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label  class="col-sm-2 col-form-label">Asignar Criticidad:</label>
+                            <div class="col-sm-10">
+                                <select [(ngModel)]="selectedPriority" [disabled]="denouncement.priority || denouncement.state=='desestimate'" name="select3" class="form-control"
+                                    style="border-bottom: 1px solid #ccc;" required="">
+                                    <option value="high">Alta</option>
+                                    <option value="medium">Media</option>
+                                    <option value="low">Baja</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="my-2">
+                            <button *ngIf="denouncement.state == 'created'" [disabled]="updating"
+                                (click)="put('desestimate')" class="btn btn-secondary">Desestimar</button>
+                            <button *ngIf="denouncement.state == 'created'" [disabled]="updating || (!selectedUser || !selectedPriority)"
+                                (click)="put('assigned')" class="btn btn-info">Investigar</button>
+                            <button *ngIf="denouncement.state != 'created' && denouncement.state != 'desestimate' && denouncement.state != 'closed' && denouncement.state" class="btn btn-danger"
+                                (click)="modalCloser.show()">Cerrar Denuncia</button>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <br>
+                        <br>
+                        <h3>Evidencias</h3>
+                        <ngx-datatable #reasons_table class='data-table' [columnMode]="'flex'"  [headerHeight]="50"
+                            [footerHeight]="50" [rowHeight]="'auto'" [limit]="25" [rows]='denouncement.evidences'>
+                            <ngx-datatable-column name="Recurso" [flexGrow]="3">
+                                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+                                        <a [href]="row.resource_url | safe" target="_blank">{{row.name}} 
+                                            <span class="label label-primary" *ngIf="row.is_primary">Subido con la denuncia</span>
+                                        </a>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Fecha" [flexGrow]="1">
+                                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+                                        {{ row.created_at | date: 'dd/MM/yyyy' }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                    <div class="col-md-12" *ngIf="denouncement.state != 'created' && denouncement.state != 'desestimate'">
+                        <br><br>
+                        <h3>Comentarios <button type="button" *ngIf="denouncement.state != 'closed' && denouncement.state != 'desestimate'"
+                                                class="btn btn-primary ripple light" (click)="create()">Agregar comentario</button></h3>
+                        
+                        
+                        <ngx-datatable 
+                            #reasons_table 
+                            class='data-table' 
+                            [columnMode]="'flex'"  
+                            [headerHeight]="50"
+                                                    
+                            [footerHeight]="50" 
+                            [rowHeight]="'auto'" 
+                            [limit]="25" 
+                            [rows]='conversations'
+                        >
+                            <ngx-datatable-column name="Usuario" [flexGrow]="1">
+                                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+                                        <span class="label label-{{ row | conversationName:'type' }}">{{ row | conversationName }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Mensaje" [flexGrow]="2">
+                                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+                                            {{ row.message }}
+                                            <span *ngFor="let evidence of row.evidences">
+                                                <br><a target="_blank" [href]="evidence.resource_url | safe"><i class="fa fa-file"></i> {{ fileAndExt(evidence.resource_url) }}</a>
+                                            </span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Fecha" [flexGrow]="1">
+                                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+                                                {{ row.created_at | date: 'dd/MM/yyyy HH:mm' }}
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                        </ngx-datatable>
+
+                    </div>
+                </div>
+            </app-card>
+        </div>
+    </div>
+</div>

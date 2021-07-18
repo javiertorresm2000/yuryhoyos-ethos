@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+  <title>ETHOS CONTROL - INICIAR SESIÓN</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="forms-container">
+      <div class="signin-signup">
+        <form class="sign-in-form">
+          <h2 class="title">Ingresar</h2>
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input type="text" [(ngModel)]="email" name="email" placeholder="Nombre de usuario" />
+          </div>
+          <div class="input-field">
+            <i class="fas fa-lock"></i>
+            <input type="password" [(ngModel)]="password" name="password" placeholder="Contraseña" />
+          </div>
+          <input type="submit" (click)="submit()" value="Acceso" class="btn solid" />
+          <p class="social-text"><a [routerLink]="['/auth/forgot']">¿Olvidó su contraseña?</a></p>
+
+        </form>
+
+      </div>
+    </div>
+
+    <div class="panels-container">
+      <div class="panel left-panel">
+
+        <img src="assets/images/new-template/log.svg" class="image" alt="" />
+      </div>
+      <div class="panel right-panel">
+
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

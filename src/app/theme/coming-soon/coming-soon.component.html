@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="ETHOS CONTROL">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <title>Ethos Perú</title>
+
+    <!-- Loading Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+
+
+    <!-- Loading Template CSS -->
+    <!-- <link href="css/style.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style-magnific-popup.css" rel="stylesheet">
+
+    <!- Awsome Fonts --
+    <link rel="stylesheet" href="css/all.min.css"> -->
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Dosis:500,600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300i,400,400i,600,700" rel="stylesheet">
+
+    <!-- Font Favicon -->
+    <link rel="shortcut icon" href="assets/images/new-template/favicon.ico">
+
+</head>
+
+<body>
+
+    <!--begin header -->
+    <header class="header">
+
+        <!--begin navbar-fixed-top -->
+        <nav class="navbar navbar-default navbar-fixed-top sticky-top">
+
+            <!--begin container -->
+            <div class="container">
+
+                <!--begin navbar -->
+                <nav class="navbar navbar-expand-lg">
+
+                    <!--begin logo -->
+
+                    <img src="assets/images/new-template/color3.png" class="actress-image " alt="pic">
+                    <!--end logo -->
+
+                    <!--begin navbar-toggler -->
+                    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
+                        data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
+                    </button>
+                    <!--end navbar-toggler -->
+
+                    <!--begin navbar-collapse -->
+                    <div class="navbar-collapse collapse" id="navbarCollapse" style="">
+
+                        <!--begin navbar-nav -->
+                        <ul class="navbar-nav ml-auto">
+
+                            <li><a (click)="scroll(home)" class="pointer">INICIO</a></li>
+
+                            <li><a  (click)="scroll(about)" class="pointer">ACERCA DE</a></li>
+
+                            <li><a  (click)="scroll(servicios2)" class="pointer">SERVICIOS</a></li>
+
+                            <!--<li><a href="#pricing">PRECIOS</a></li>-->
+
+                            <!--<li><a href="#team">EQUIPO</a></li>-->
+
+                            <li><a (click)="scroll(contact)" class="pointer">CONTACTO</a></li>
+
+                            <li class="discover-link"><a [routerLink]="['/login']" class="external discover-btn">Acceder</a>
+                            </li>
+
+                        </ul>
+                        <!--end navbar-nav -->
+
+                    </div>
+                    <!--end navbar-collapse -->
+
+                </nav>
+                <!--end navbar -->
+
+            </div>
+            <!--end container -->
+
+        </nav>
+        <!--end navbar-fixed-top -->
+
+    </header>
+    <!--end header -->
+
+    <!--begin home section -->
+    <section class="home-section" id="home" #home>
+
+
+
+        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="assets/images/new-template/banner1.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="assets/images/new-template/banner2.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="assets/images/new-template/banner3.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="assets/images/new-template/banner4.jpg" class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+    </section>
+    <!--end home section -->
+
+
+
+    <!--begin section-blue -->
+    <section class="section-blue" id="about" #about>
+
+        <!--begin container -->
+        <div class="container">
+
+            <!--begin row -->
+            <div class="row">
+
+                <!--begin col-md-6-->
+                <div class="col-md-4">
+
+                    <!--begin video-popup-wrapper-->
+                    <div class="video-popup-wrapper">
+
+                        <!--begin popup-gallery-->
+                        <div class="popup-gallery">
+
+
+
+                            <a class="#" href="#">
+
+                                <h1 class="acercade">
+                                    ACERCA DE <br> NOSOTROS
+                                </h1>
+
+                            </a>
+
+                        </div>
+                        <!--end popup-gallery-->
+
+                    </div>
+                    <!--end video-popup-wrapper-->
+
+                </div>
+                <!--end col-md-6-->
+                <!--begin col-md-6-->
+                <div class="col-md-4 padding-top-30 padding-left-20">
+
+                    <h2 class="white-text">¿Qué es Ethos?</h2>
+
+                    <p class="white-text">Ethos es una herramienta para el uso y administración de los canales de
+                        denuncia de las empresas. Nuestros canales de denuncia son 100% anónimos, confidenciales y
+                        seguros que permiten a sus empleados, clientes y proveedores informar situaciones anormales,
+                        fraudes y contingencias en el lugar de trabajo o proporcionar comentarios para la mejora de los
+                        procesos internos dentro de organizaciones públicas o privadas.</p>
+
+                    <p class="white-text">Nuestra herramienta se adapta a las necesidades de toda organización. Ese de
+                        fácil uso y acceso.
+                        Nuestro equipo brinda asesoría y capacitación en temas de Fraude, Investigación, Compliance y
+                        Control Interno.
+                    </p>
+
+                </div>
+                <!--end col-md-6-->
+
+                <!--begin col-md-6-->
+                <div class="col-md-4 padding-top-30 padding-left-20">
+
+                    <h2 class="white-text">¿Quiénes somos?</h2>
+
+                    <p class="white-text">Somos una empresa que ofrece un servicio único de gran valor agregado,
+                        ayudamos a nuestros clientes a luchar contra el fraude mediante nuestros servicios. Ofrecemos el
+                        más alto nivel de seguridad, actualizaciones de campo en tiempo real y tiempos de respuesta
+                        cortos. </p>
+
+                    <p class="white-text">
+                    </p>
+
+                </div>
+                <!--end col-md-6-->
+
+            </div>
+            <!--end row -->
+
+        </div>
+        <!--end container -->
+
+    </section>
+    <!--end section-blue -->
+
+    <!--begin section-grey -->
+    <section class="section-grey section-top-border" id="servicios">
+
+        <!--begin container -->
+        <div class="container">
+
+            <!--begin row -->
+            <div class="row">
+
+                <!--begin col-md-12 -->
+                <div class="col-md-12 text-center">
+
+                    <h1 class="section-title">
+                        Nuestro objetivo
+                    </h1>
+
+                    <!--lass="section-subtitle">Comuníquese con herramientas flexibles que van a donde va su equipo.</p>-->
+
+                </div>
+                <!--end col-md-12 -->
+
+                <!--begin col-md-4 -->
+                <div class="col-md-4">
+
+                    <div class="main-services">
+
+                        <img src="assets/images/new-template/main-service1.png" class="width-100" alt="pic">
+
+                        <h3>Misión</h3>
+
+                        <p>Proporcionar una herramienta tecnológica de fácil acceso y uso a los empresarios y emprendedores
+                            que les ayude a la detección y prevención de fraudes.
+                        </p>
+
+
+
+                    </div>
+
+                </div>
+                <!--end col-md-4 -->
+
+                <!--begin col-md-4 -->
+                <div class="col-md-4">
+
+                    <div class="main-services">
+
+                        <img src="assets/images/new-template/main-service2.png" class="width-100" alt="pic">
+
+                        <h3>Visión</h3>
+
+                        <p>
+                            Ser la empresa líder en canales de denuncia.
+                        </p>
+
+
+
+                    </div>
+
+                </div>
+                <!--end col-md-4 -->
+
+                <!--begin col-md-4 -->
+                <div class="col-md-4">
+
+                    <div class="main-services">
+
+                        <img src="assets/images/new-template/main-service3.png" class="width-100" alt="pic">
+
+                        <h3>Nuestro Compromiso</h3>
+
+                        <p>
+                            La integridad y el honor son nuestros valores rectores. Nos aseguramos de que cada compromiso
+                            con nuestros clientes sea una experiencia personalizada. Ethos estará allí para ayudarlo a
+                            combatir el fraude en todos los frentes, y estaremos allí en cada paso del camino.
+                        </p>
+
+
+
+                    </div>
+
+                </div>
+                <!--end col-md-4 -->
+
+            </div>
+            <!--end row -->
+
+        </div>
+        <!--end container -->
+
+    </section>
+    <!--end section-grey -->
+
+    <!--begin section-white -->
+    <section class="section-white section-top-border " id="servicios2" #servicios2>
+
+        <!--begin container -->
+        <div class="container">
+
+            <h1>Servicios</h1>
+
+            <!--begin row -->
+            <div class="row">
+
+                <!--begin col-md-6 -->
+                <div class="col-md-6 padding-top-30">
+
+                    <!--begin features-second -->
+                    <div class="features-second">
+
+
+                        <div class="dropcaps-circle">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+
+                        <h4 class="margin-bottom-5">1. Implementación de Canal de Denuncias.</h4>
+
+                        <p>Implementación de Canales de Denuncia a todo tipo de empresas para que sus empleados,
+                            clientes y proveedores puedan informar situaciones anómalas que ocurran en el ámbito
+                            laboral,
+                            o bien expresar ideas para mejorar procesos internos dentro de la compañía.
+                        </p>
+
+                    </div>
+                    <!--end features-second-->
+
+                    <!--begin features-second-->
+                    <div class="features-second">
+
+                        <div class="dropcaps-circle">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+
+                        <h4 class="margin-bottom-5">2. Asesoría Profesional.</h4>
+
+                        <p>Brindamos Asesoría en Control Interno, Compliance, Investigaciones y Fraude.
+
+                            Brindamos capacitaciones y actualizaciones profesionales en temas de Auditoria Forense
+                            y Control Interno.
+
+                        </p>
+
+                    </div>
+                    <!--end features-second-->
+
+
+
+                </div>
+                <!--end col-md-6-->
+
+                <!--begin col-md-6-->
+                <div class="col-md-6 wow slideInRight" data-wow-delay="0.25s"
+                    style="visibility: visible; animation-delay: 0.25s; animation-name: slideInRight;">
+
+                    <img src="assets/images/new-template/300.jpg" class="width-100 box-shadow" alt="pic">
+
+                </div>
+                <!--end col-md-6-->
+
+            </div>
+            <!--end row -->
+
+        </div>
+        <!--end container -->
+
+    </section>
+    <!--end section-white -->
+
+
+
+
+
+    <!--begin carousel-item-->
+
+    <div class="carousel-item">
+
+        <div class="row">
+
+            <div class="col-sm-3">
+                <img src="assets/images/new-template/showcase5.jpg" alt="showcase" class="gallery-show">
+            </div>
+
+            <div class="col-sm-3">
+                <img src="assets/images/new-template/showcase6.jpg" alt="showcase" class="gallery-show">
+            </div>
+
+            <div class="col-sm-3">
+                <img src="assets/images/new-template/showcase7.jpg" alt="showcase" class="gallery-show">
+            </div>
+
+            <div class="col-sm-3">
+                <img src="assets/images/new-template/showcase8.jpg" alt="showcase" class="gallery-show">
+            </div>
+
+        </div>
+
+    </div>
+    <!--end carousel-item-->
+
+
+    
+    <!--end gallery section -->
+
+    <!--begin services section -->
+    <section class="section-white section-bottom-border" id="features">
+
+        <!--begin container -->
+        <div class="container">
+
+            <!--begin row -->
+            <div class="row">
+
+                <!--begin col-md-12-->
+                <div class="col-md-12 text-center padding-bottom-10">
+
+                    <h2 class="section-title">Características asombrosas</h2>
+
+                    <p class="section-subtitle">Ethos cuenta con todas las funcionalidades necesarias para gestionar sus
+                        denuncias.
+
+                </div>
+                <!--end col-md-12 -->
+
+            </div>
+            <!--end row -->
+
+            <!--begin row -->
+            <div class="row">
+
+                <!--begin col-md-4-->
+                <div class="col-md-4">
+
+                    <div class="feature-box wow fadeIn" data-wow-delay="0.25s"
+                        style="visibility: visible; animation-delay: 0.25s; animation-name: fadeIn;">
+
+                        <i class="fas fa-tachometer-alt"></i>
+
+                        <h4>Potente panel de control</h4>
+
+
+
+                    </div>
+                </div>
+                <!--end col-md-4 -->
+
+                <!--begin col-md-4-->
+                <div class="col-md-4">
+
+                    <div class="feature-box wow fadeIn" data-wow-delay="0.5s"
+                        style="visibility: visible; animation-delay: 0.5s; animation-name: fadeIn;">
+
+                        <i class="fas fa-chart-line"></i>
+
+                        <h4>Fácil de usar</h4>
+
+
+
+                    </div>
+                </div>
+                <!--end col-md-4 -->
+
+                <!--begin col-md 4-->
+                <div class="col-md-4">
+
+                    <div class="feature-box wow fadeIn" data-wow-delay="0.75s"
+                        style="visibility: visible; animation-delay: 0.75s; animation-name: fadeIn;">
+
+                        <i class="fas fa-bell"></i>
+
+                        <h4>Notificaciones inteligentes</h4>
+
+
+
+                    </div>
+                </div>
+                <!--end col-md-4 -->
+
+            </div>
+            <!--end row -->
+
+            <!--begin row -->
+            <div class="row">
+
+                <!--begin col-md-4-->
+                <div class="col-md-4">
+
+                    <div class="feature-box wow fadeIn" data-wow-delay="1s"
+                        style="visibility: visible; animation-delay: 1s; animation-name: fadeIn;">
+
+                        <i class="fas fa-hand-holding-usd"></i>
+
+                        <h4>Control de roles</h4>
+
+
+                    </div>
+                </div>
+                <!--end col-md-4 -->
+
+                <!--begin col-md-4-->
+                <div class="col-md-4">
+
+                    <div class="feature-box wow fadeIn" data-wow-delay="1.25s"
+                        style="visibility: visible; animation-delay: 1.25s; animation-name: fadeIn;">
+
+                        <i class="fas fa-rocket"></i>
+
+                        <h4>Características unicas</h4>
+
+
+
+                    </div>
+                </div>
+                <!--end col-md-4 -->
+
+                <!--begin col-md-4-->
+                <div class="col-md-4">
+
+                    <div class="feature-box wow fadeIn" data-wow-delay="1.5s"
+                        style="visibility: visible; animation-delay: 1.5s; animation-name: fadeIn;">
+
+                        <i class="fab fa-rocketchat"></i>
+
+                        <h4>Soporte 24/7</h4>
+
+
+
+                    </div>
+                </div>
+                <!--end col-md-4 -->
+
+            </div>
+            <!--end row -->
+
+        </div>
+        <!--end container -->
+
+    </section>
+    <!--end services section -->
+
+    <!--begin testimonials section -->
+
+    <!--end testimonials section -->
+
+    <!--begin section-white -->
+    <section class="section-white section-bottom-border">
+
+        <!--begin container-->
+        <div class="container">
+
+            <!--begin row-->
+            <div class="row">
+
+                <!--begin col-md-6-->
+                <div class="col-md-6 padding-top-20">
+
+                    <h3>Prepárate para descubrir los beneficios de nuestro servicio en la que podrás prevenir fraudes en
+                        tu empresa. </h3>
+
+
+
+                    <ul class="benefits">
+                        <li><i class="fa fa-check"></i> Gestión de roles de usuarios.</li>
+                        <li><i class="fa fa-check"></i> Reportes detallados</li>
+                        <li><i class="fa fa-check"></i> Seguridad de la información.</li>
+                    </ul>
+
+                    <a (click)="scroll(contact)" class="btn-blue scrool pointer">Contactar</a>
+
+                </div>
+                <!--end col-md-6-->
+
+                <!--begin col-md-6-->
+                <div class="col-md-6">
+
+                    <img src="assets/images/new-template/img0.png" class="hero-image width-100 box-shadow" alt="pic">
+
+                </div>
+                <!--end col-sm-6-->
+
+            </div>
+            <!--end row-->
+
+        </div>
+        <!--end container-->
+
+    </section>
+    <!--end section-white-->
+
+    <!--begin newsletter section -->
+
+    <!--end newsletter section -->
+
+
+
+    <!--begin contact -->
+    <section class="section-white section-top-border" id="contact" #contact>
+
+        <!--begin container-->
+        <div class="container">
+
+            <!--begin row-->
+            <div class="row">
+
+                <!--begin col-md-6 -->
+                <div class="col-md-6">
+
+                    <h4>Ponerse en contacto</h4>
+
+                    <!--begin success message -->
+                    <p class="contact_success_box" style="display:none;">We received your message and you'll hear from
+                        us soon. Thank You!</p>
+                    <!--end success message -->
+
+                    <!--begin contact form -->
+                    <form id="contact-form" class="contact" action="php/contact.php" method="post">
+
+                        <input class="contact-input white-input" required="" name="contact_names"
+                            placeholder="Nombre completo*" type="text">
+
+                        <input class="contact-input white-input" required="" name="contact_email"
+                            placeholder="Dirección de correo electrónico*" type="email">
+
+                        <input class="contact-input white-input" required="" name="contact_phone"
+                            placeholder="Número de teléfono*" type="text">
+
+                        <textarea class="contact-commnent white-input" rows="2" cols="20" name="contact_message"
+                            placeholder="Tu mensaje..."></textarea>
+
+                        <input value="Enviar mensaje" id="submit-button" class="contact-submit" type="submit">
+
+                    </form>
+                    <!--end contact form -->
+
+                </div>
+                <!--end col-md-6 -->
+
+                <!--begin col-md-6 -->
+                <div class="col-md-6">
+
+                    <h4>Si deseas mayor información puedes comunicarte:</h4>
+
+                    <!--begin col-md-6-->
+                    <div class=" wow slideInRight" data-wow-delay="0.25s"
+                        style="visibility: visible; animation-delay: 0.25s; animation-name: slideInRight;">
+
+                        <img src="assets/images/new-template/300.jpg" class="width-100 box-shadow" alt="pic">
+
+                    </div>
+                    <!--end col-md-6-->
+
+
+                    <h5>
+                        Oficina central
+                    </h5>
+
+                    <p class="contact-info"><i class="fas fa-map-marker-alt"></i> www.ethosperu.com</p>
+
+                    <p class="contact-info"><i class="fas fa-envelope"></i> <a href="#">E-mail:
+                            gerencia@ethosperu.com</a></p>
+
+                    <p class="contact-info"><i class="fas fa-phone"></i> +51 966 428 735 / + 1(786) 629 9130</p>
+
+                </div>
+                <!--end col-md-6 -->
+
+            </div>
+            <!--end row-->
+
+        </div>
+        <!--end container-->
+
+    </section>
+    <!--end contact-->
+
+    <!--begin footer -->
+    <div class="footer">
+
+        <!--begin container -->
+        <div class="container">
+
+            <!--begin row -->
+            <div class="row">
+
+                <!--begin col-md-12 -->
+                <div class="col-md-12 text-center">
+
+                    <p>© ETHOS PERÚ 2021 </p>
+
+
+
+                </div>
+                <!--end col-md-6 -->
+
+            </div>
+            <!--end row -->
+
+        </div>
+        <!--end container -->
+
+    </div>
+    <!--end footer -->
+
+
+    <a href="#" class="scrolltop">
+        <i class="fa fa-angle-up"></i>
+    </a>
+
+
+
+
+    <!-- <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.scrollTo-min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/jquery.nav.js"></script>
+    <script src="js/wow.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+        integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+        crossorigin="anonymous"></script> -->
+
+
+</body>
+
+</html>
+
+
+
+
+<!-- <div class="bg-light">
+    <div class="container">
+
+        <section class="py-2 center-logo">
+            <img width="200" src="assets/images/logo-original.png" alt="logo.png">
+        </section>
+        <section>
+            <div class="row">
+                <div class="col-md-8">
+                    <ngx-carousel class="banner ngx-carousel" [inputs]="carouselBanner"
+                        (carouselLoad)="carouselBannerLoadc()">
+                        <ngx-item NgxCarouselItem *ngFor="let tile of carouselBannerItems; let i = index;">
+                            <div class="bannerStyle">
+                                <img [attr.src]="tile" alt="" class="img-fluid">
+                            </div>
+                        </ngx-item>
+                        <button NgxCarouselPrev class="carousel-control-prev"><i
+                                class="icofont icofont-rounded-left"></i></button>
+                        <button NgxCarouselNext class="carousel-control-next"><i
+                                class="icofont icofont-rounded-right"></i></button>
+                    </ngx-carousel>
+                </div>
+                <div class="col-md-4">
+                    <form class="md-float-material form-material" >
+                        <div class="auth-box card">
+                            <div class="card-block">
+                                <div class="row m-b-20">
+                                    <div class="col-md-12">
+                                        <h3 class="text-center">Acceder</h3>
+                                    </div>
+                                </div>
+                                <div class="form-group form-primary">
+                                    <input [(ngModel)]="email" type="text" name="email" class="form-control"
+                                        required="">
+                                    <span class="form-bar"></span>
+                                    <label class="float-label">Usuario</label>
+                                </div>
+                                <div class="form-group form-primary">
+                                    <input [(ngModel)]="password" type="password" name="password" class="form-control"
+                                        required="">
+                                    <span class="form-bar"></span>
+                                    <label class="float-label">Contraseña</label>
+                                </div>
+                                <div class="row m-t-25 text-left">
+                                    <div class="col-12">
+                                        <div class="checkbox-fade fade-in-primary d-">
+                                            <label>
+                                                <input type="checkbox" value="">
+                                                <span class="cr"><i class="cr-icon fa fa-check txt-primary"></i></span>
+                                                <span class="text-inverse">Recordarme</span>
+                                            </label>
+                                        </div>
+                                        <div class="forgot-phone text-right f-right">
+                                            <a [routerLink]="['/auth/forgot']" class="text-right f-w-600"> ¿Olvidó su
+                                                contraseña?</a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row m-t-30">
+                                    <div class="col-md-12">
+                                        <button type="submit" (click)="submit()"
+                                            class="btn btn-primary btn-md btn-block waves-light text-center m-b-20 ripple">Ingresar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <section class="pb-2">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-4 same-height">
+                            <div class="card bg-secondary text-white">
+                                <div class="card-body">
+                                    <p><strong>Misión</strong></p>    
+                                    Proporcionar una herramienta tecnológica de fácil acceso y uso a los empresarios y emprendedores peruanos que les ayude a la detección y prevención de fraudes.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 same-height">
+                            <div class="card bg-secondary text-white">
+                                <div class="card-body">
+                                        <p><strong>Visión</strong></p>    
+                                        Ser la empresa peruana líder en canales de denuncia.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 same-height">
+                            <div class="card bg-secondary text-white">
+                                <div class="card-body">
+                                        <p><strong>¿Quiénes somos?</strong></p>    
+                                        Somos una empresa de capitales peruanos. Ofrecemos un servicio único de gran valor agregado, con una experiencia de más de 15 años, vinculados a la detección y prevención de fraudes.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Línea Ética</h4>
+                                </div>
+                                <div class="card-body">
+
+                                    <ul class="basic-list list-icons">
+                                        <li>
+                                            <i
+                                                class="icofont icofont-star text-primary p-absolute text-center d-block f-30"></i>
+                                            <h6>¿Qué hacemos? </h6>
+                                            <p>Ofrecemos canales de denuncia anónimos, confidenciales y seguros que permiten a sus empleados, clientes y proveedores informar situaciones anormales, fraudes y contingencias en el lugar de trabajo o proporcionar comentarios para la mejora de los procesos internos dentro de organizaciones públicas o privadas.</p>
+                                        </li>
+                                        <li>
+                                            <h6>Servicios</h6>
+                                            <i
+                                                class="icofont icofont-papers  text-primary p-absolute text-center d-block f-30"></i>
+                                            <p>
+                                                Canal de denuncias – Línea Ética – Whistleblowing Channel. <br>
+
+                                                Ethos Perú ofrece toda su experiencia en un servicio integral de reporte de irregularidades, un canal de denuncias anónimo, confidencial y seguro, de rápida implementación y difusión, acorde a todo tipo de organizaciones.
+                                            </p>
+                                            <br>
+                                            <p>
+                                                Este canal permitirá que sus empleados, clientes y proveedores puedan informar fraudes y situaciones anómalas que ocurran dentro del ámbito laboral, o bien expresar ideas para mejorar los procesos internos de la organización.
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>
+                                <b>&copy; Ethos.com 2019</b> Contacto: <a href="mailto:gerencia@ethosperu.com">gerencia@ethosperu.com</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+        </section>
+
+
+    </div>
+
+</div> -->

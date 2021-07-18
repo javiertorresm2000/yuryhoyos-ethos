@@ -1,0 +1,147 @@
+<!--<simple-notifications [options]="options"></simple-notifications>-->
+<div class="page-body">
+    <div *ngIf="ROL_INVESTIGATOR != rol" class="row">
+        <div class="col-xl-3 col-md-6">
+            <div class="card">
+                <div class="card-block">
+                    <div class="row align-items-center m-l-0">
+                        <div class="col-auto">
+                            <i class="fa fa-book f-30 text-c-purple"></i>
+                        </div>
+                        <div class="col-auto">
+                            <h6 class="text-muted m-b-10">Total de denuncias</h6>
+                            <h2 class="m-b-0">{{ total }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card">
+                <div class="card-block">
+                    <div class="row align-items-center m-l-0">
+                        <div class="col-auto">
+                            <i class="fa fa-rocket f-30 text-c-green"></i>
+                        </div>
+                        <div class="col-auto">
+                            <h6 class="text-muted m-b-10">Denuncias abiertas</h6>
+                            <h2 class="m-b-0">{{ open }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card">
+                <div class="card-block">
+                    <div class="row align-items-center m-l-0">
+                        <div class="col-auto">
+                            <i class="fa fa-user f-30 text-c-red"></i>
+                        </div>
+                        <div class="col-auto">
+                            <h6 class="text-muted m-b-10">Denuncias cerradas</h6>
+                            <h2 class="m-b-0">{{ closed }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card">
+                <div class="card-block">
+                    <div class="row align-items-center m-l-0">
+                        <div class="col-auto">
+                            <i class="fa fa-lightbulb-o f-30 text-c-blue"></i>
+                        </div>
+                        <div class="col-auto">
+                            <h6 class="text-muted m-b-10">Investigadores activos</h6>
+                            <h2 class="m-b-0">{{ investigators }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6" *ngIf="denouncements.length">
+            <app-card [title]=" ROL_INVESTIGATOR != rol ? 'Últimas denuncias creadas' : 'Últimas denuncias asignadas'" [cardClass]="'table-card'" [cardOptionBlock]="true">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th width="20%"></th>
+                                <th width="10%"></th>
+                                <th style="width: 100px;"></th>
+                                <th width="10%"></th>
+                                <th width="10%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let denouncement of denouncements">
+                                <td class="text-center">
+                                        <span class="label label-inverse-{{denouncement.label_type}}">{{denouncement.type}}</span>
+                                </td>
+                                <td>{{denouncement.id}}</td>
+                                <td style="width: 100px;"><span style="display:inline-block" class="label label-{{ denouncement.state | state:'type' }}">{{ denouncement.state | state }}</span></td>
+                                <td>{{ denouncement.created_at | date: 'dd/MM/yyyy' }}</td>
+                                
+                                <td><a routerLink="/denouncement/{{denouncement.id}}" class=" b-b-primary text-primary">Ver</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </app-card>
+        </div>
+        <div *ngIf="ROL_INVESTIGATOR != rol" class="col-md-6">
+            <app-card [title]="'Top 5 categorias de denuncia'" [cardClass]="'traficc-card'" [cardOptionBlock]="true">
+                <div *ngFor="let category of categories">
+                    <p class="m-b-10 m-t-30">{{ category.name }} <span class="f-right">{{ category.percentage }} %</span></p>
+                    <div class="progress {{ category.color }}">
+                        <div class="progress-bar bg-c-{{ category.color }}" [style.width]="category.percentage + '%'"></div>
+                    </div>
+                </div>
+            </app-card>
+        </div>
+        <div *ngIf="ROL_INVESTIGATOR == rol" class="col-md-6">
+
+            <div class="row">
+                    <div class="col-xl-6 col-md-6">
+                            <div class="card">
+                                <div class="card-block">
+                                    <div class="row align-items-center m-l-0">
+                                        <div class="col-auto">
+                                            <i class="fa fa-rocket f-30 text-c-green"></i>
+                                        </div>
+                                        <div class="col-auto">
+                                            <h6 class="text-muted m-b-10">Denuncias asignadas</h6>
+                                            <h2 class="m-b-0">{{ me_assigned }}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-md-6">
+                            <div class="card">
+                                <div class="card-block">
+                                    <div class="row align-items-center m-l-0">
+                                        <div class="col-auto">
+                                            <i class="fa fa-user f-30 text-c-red"></i>
+                                        </div>
+                                        <div class="col-auto">
+                                            <h6 class="text-muted m-b-10">Denuncias cerradas</h6>
+                                            <h2 class="m-b-0">{{ me_closed }}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    
+</div>

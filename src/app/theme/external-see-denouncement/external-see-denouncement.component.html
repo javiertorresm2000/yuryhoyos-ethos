@@ -1,0 +1,193 @@
+<app-modal-basic #modalLarge [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Nuevo comentario</h4>
+        <button type="button" class="close basic-close" (click)="modalLarge.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="app-modal-body">
+        <form class="form-material" [formGroup]="form">
+            <div class="form-group form-default">
+                <textarea formControlName="message" class="form-control" required=""></textarea>
+                <label class="float-label">Mensaje</label>
+                <div class="messages text-danger" *ngIf="form.controls.message.errors?.required && submitted">No puede
+                    estar vacio</div>
+            </div>
+            <div>
+                <div class="row">
+                                                                <div class="col-md-3">
+                                                                    <button (click)="fileInput.click()" class="btn btn-success">Subir archivo</button>
+                                                                    <input #fileInput style="display: none;" type="file" ng2FileSelect [uploader]="uploader" class="form-control">
+                                                                </div>
+                                                                <div class="col-md-9 text-right">
+                                                                    
+                                                                    <p>
+                                                                        <span class="label label-danger">Solo podras subir archivos que no superen 10MB</span>
+                                                                    </p>
+                                                                    <p>
+                                                                        <span class="label label-danger">No estan permitidos los archivos .EXE</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <br><br>
+                                                            
+                                
+                                                            <p><strong>
+                                                                Archivos disponibles para subir: {{ uploader.options.queueLimit - uploader?.queue?.length }}
+                                                            </strong></p>
+                                            <div class="table-responsive">
+                                              <table class="table">
+                                                <thead>
+                                                <tr>
+                                                  <th width="50%">Nombre</th>
+                                                  <th>Tamaño</th>
+                                                  <th>Acciones</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr *ngFor="let item of uploader.queue">
+                                                  <td><strong>{{ item?.file?.name }}</strong></td>
+                                                  <td>{{ item.file.size/1024/1024 | number:'.1' }} MB</td>
+                                                  <td nowrap>
+                                                    <button type="button" class="btn btn-danger btn-sm ripple light" (click)="item.remove()">
+                                                      <span class="fa fa-trash"></span> Remover
+                                                    </button>
+                                                  </td>
+                                                </tr>
+                                                </tbody>
+                                              </table>
+                                            </div>
+            </div>
+            <input type="hidden" formControlName="denounces_id">
+        </form>
+
+    </div>
+    <div class="app-modal-footer">
+        <button type="button" class="btn btn-default ripple" (click)="modalLarge.hide()">Cerrar</button>
+        <button type="button" class="btn btn-primary ripple light" [disabled]="sended" (click)="send()">Guardar</button>
+    </div>
+</app-modal-basic>
+<section class="bg-white pt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card bg-secondary">
+                    <div class="card-body">
+                        <h3 class="text-white">Consultar Denuncia</h3>
+                        <div class="material-group material-group-lg">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="form-group form-primary">
+                                        <input [(ngModel)]="denouncementId" type="text" name="footer-email"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <button (click)="search()" [disabled]="processing"
+                                        class="btn-block btn btn-primary">Consultar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" *ngIf="denouncement">
+                <div class="card">
+                    <div class="card-body">
+                        <h1>Denuncia #{{ denouncement.id }} <span
+                                class="label f-right label-{{ denouncement.state | state:'type' }}">{{ denouncement.state | state }}</span>
+                        </h1>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>
+                                    <b>Denunciante:</b> {{ denouncement.anonymus }}
+                                </p>
+                                <p>
+                                    <b>Correo de Denunciante:</b> {{ denouncement.informer_email }}
+                                </p>
+                                <p>
+                                    <b>Categoria:</b> {{ denouncement.category }}
+                                </p>
+                                <p>
+                                    <b>Area:</b> {{ denouncement.area }}
+                                </p>
+                                <p>
+                                    <b>Sucursal: </b> {{ denouncement.office }}
+                                </p>
+                                <p>
+                                    <b>Personas denunciadas:</b> {{ denouncement.people }}
+                                </p>
+                                <p>
+                                    <b>Descripción: </b> {{ denouncement.description }}
+                                </p>
+                            </div>
+                            <div class="col-md-6"></div>
+                        </div>
+                        
+
+                        <div class="row">
+                                <div class="col-md-12">
+                                    <br>
+                                    <br>
+                                    <h3>Evidencias</h3>
+                                    <ngx-datatable #reasons_table class='data-table' [columnMode]="'flex'"  [headerHeight]="50"
+                                        [footerHeight]="50" [rowHeight]="'auto'" [limit]="25" [rows]='denouncement.evidences'>
+                                        <ngx-datatable-column name="Recurso" [flexGrow]="3">
+                                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+                                                    <a [href]="row.resource_url | safe" target="_blank">{{row.name}} <span class="label label-primary" *ngIf="row.is_primary">Subido con la denuncia</span></a>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column name="Fecha" [flexGrow]="1">
+                                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+                                                    {{ row.created_at | date: 'dd/MM/yyyy' }}
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                    </ngx-datatable>
+                                </div>
+                                <div class="col-md-12" *ngIf="denouncement.state != 'created' && denouncement.state != 'desestimate'">
+                                    <br><br>
+                                    <h3>Comentarios <button type="button" *ngIf="denouncement.state == 'wait_answer'"
+                                        class="btn btn-primary ripple light" (click)="modalLarge.show()">Agregar comentario</button></h3>
+                                    
+                                    
+                                    <ngx-datatable 
+                                        #reasons_table 
+                                        class='data-table' 
+                                        [columnMode]="'flex'"  
+                                        [headerHeight]="50"
+                                                                
+                                        [footerHeight]="50" 
+                                        [rowHeight]="'auto'" 
+                                        [limit]="25" 
+                                        [rows]='conversations'
+                                    >
+                                        <ngx-datatable-column name="Usuario" [flexGrow]="1">
+                                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+                                                    <span class="label label-{{ row | conversationName:'type' }}">{{ row | conversationName:'hide' }}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column name="Mensaje" [flexGrow]="2">
+                                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+                                                {{ row.message }}
+                                                <span *ngFor="let evidence of row.evidences">
+                                                    <br><a target="_blank" [href]="evidence.resource_url | safe"><i class="fa fa-file"></i> {{ fileAndExt(evidence.resource_url) }}</a>
+                                                </span>
+                                        </ng-template>
+                                            </ngx-datatable-column>
+                                            <ngx-datatable-column name="Fecha" [flexGrow]="1">
+                                                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+                                                            {{ row.created_at | date: 'dd/MM/yyyy HH:mm' }}
+                                                    </ng-template>
+                                                </ngx-datatable-column>
+            
+                                    </ngx-datatable>
+            
+                                </div>
+                            </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

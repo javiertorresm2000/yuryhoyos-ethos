@@ -1,0 +1,262 @@
+<app-modal-basic #modalLarge [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Nueva Denuncia</h4>
+        <button type="button" class="close basic-close" (click)="modalLarge.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="app-modal-body">
+        <form class="form-material" [formGroup]="form" (ngSubmit)="create()">
+            <perfect-scrollbar class="overflow-container" [style.width]="'100%'" [style.height]="'350px'">
+                <wizard #wizard class="arc-wizard">
+                    <wizard-step stepTitle="Basico">
+                        <div class="">
+                            <div>
+                                <div class="form-group form-default">
+                                    <select formControlName="category_id" name="select1" class="form-control"
+                                        style="border-bottom: 1px solid #ccc;" required="">
+                                        <option *ngFor="let rol of categoryRows" [value]="rol.id">{{rol.name}}</option>
+                                    </select>
+                                    <label class="float-label" for="select1">Categoría</label>
+                                    <div class="messages text-danger"
+                                        *ngIf="form.controls.category_id.errors?.required && step1">Debes de seleccionar una
+                                        opción</div>
+                                </div>
+                                <div class="form-group form-default">
+                                    <select formControlName="area_id" name="select1" class="form-control"
+                                        style="border-bottom: 1px solid #ccc;" required="">
+                                        <option *ngFor="let rol of areaRows" [value]="rol.id">{{rol.name}}</option>
+                                    </select>
+                                    <label class="float-label" for="select1">Área</label>
+                                    <div class="messages text-danger"
+                                        *ngIf="form.controls.area_id.errors?.required && step1">Debes de seleccionar una
+                                        opción</div>
+                                </div>
+                                <div class="form-group form-default">
+                                    <select formControlName="office_id" name="select1" class="form-control"
+                                        style="border-bottom: 1px solid #ccc;" required="">
+                                        <option *ngFor="let rol of officeRows" [value]="rol.id">{{rol.name}}</option>
+                                    </select>
+                                    <label class="float-label" for="select1">Sucursal </label>
+                                    <div class="messages text-danger"
+                                        *ngIf="form.controls.office_id.errors?.required && step1">Debes de seleccionar una
+                                        opción</div>
+                                </div>
+                            </div>
+
+                            <div class="btn-group mt-10">
+                                <button type="button" class="btn btn-primary btn-sm"
+                                    (click)="wizzardStep1()">Continuar</button>
+                            </div>
+                        </div>
+                    </wizard-step>
+                    <wizard-step stepTitle="Detalles">
+                        <div class="">
+                            <div>
+                                <div class="form-group form-default">
+                                    <textarea formControlName="people" class="form-control" required=""></textarea>
+                                    <label class="float-label">Personas Denunciadas</label>
+                                    <div class="messages text-danger"
+                                        *ngIf="form.controls.people.errors?.required && step2">No puede estar vacio</div>
+                                </div>
+                                <div class="form-group form-default">
+                                    <textarea formControlName="description" class="form-control" required=""></textarea>
+                                    <label class="float-label">Descripción</label>
+                                    <div class="messages text-danger"
+                                        *ngIf="form.controls.description.errors?.required && step2">No puede estar vacio
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="btn-group mt-10">
+                                <button type="button" class="btn btn-secondary btn-sm" previousStep>Volver</button>
+                                <button type="button" class="btn btn-primary btn-sm"
+                                    (click)="wizzardStep2()">Continuar</button>
+                            </div>
+                        </div>
+                    </wizard-step>
+                    <wizard-step stepTitle="Evidencia">
+                        <div class="">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <button (click)="fileInput.click()" class="btn btn-success">Subir archivo</button>
+                                    <input #fileInput style="display: none;" type="file" ng2FileSelect [uploader]="uploader" class="form-control">
+                                </div>
+                                <div class="col-md-9 text-right">
+                                    
+                                    <p>
+                                        <span class="label label-danger">Solo podras subir archivos que no superen 10MB</span>
+                                    </p>
+                                    <p>
+                                        <span class="label label-danger">No estan permitidos los archivos .EXE</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <br><br>
+                            
+
+                            <p><strong>
+                                Archivos disponibles para subir: {{ uploader.options.queueLimit - uploader?.queue?.length }}
+                            </strong></p>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th width="50%">Nombre</th>
+                  <th>Tamaño</th>
+                  <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of uploader.queue">
+                  <td><strong>{{ item?.file?.name }}</strong></td>
+                  <td>{{ item.file.size/1024/1024 | number:'.1' }} MB</td>
+                  <td nowrap>
+                    <button type="button" class="btn btn-danger btn-sm ripple light" (click)="item.remove()">
+                      <span class="fa fa-trash"></span> Remover
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+
+                            <div class="btn-group mt-10">
+                                <button type="button" class="btn btn-secondary btn-sm" previousStep>Volver</button>
+                                <button type="button" class="btn btn-primary btn-sm"
+                                    (click)="wizzardStep3()">Continuar</button>
+                            </div>
+                        </div>
+                    </wizard-step>
+                    <wizard-step stepTitle="Denunciante">
+                        <div class="">
+                            <div>
+                                <div class="form-group form-default">
+                                    <select formControlName="relationship" name="select" required="" class="form-control"
+                                        style="border-bottom: 1px solid #ccc;">
+                                        <option value="Interno">Interno</option>
+                                        <option value="Externo">Externo</option>
+                                    </select>
+                                    <label class="float-label">Relación con la empresa </label>
+                                    <div class="messages text-danger"
+                                        *ngIf="form.controls.relationship.errors?.required && sended">Debes de seleccionar
+                                        una opción</div>
+                                </div>
+
+                                <div class="form-group form-default">
+                                    <input type="text" formControlName="email" class="form-control" required="">
+                                    <span class="form-bar"></span>
+                                    <label class="float-label">Correo Electrónico (exa@gmail.com)</label>
+                                    <div class="messages text-danger" *ngIf="form.controls.email.errors?.required && sended">No puede estar vacio</div>
+                                    <div class="messages text-danger" *ngIf="form.controls.email.errors?.email && sended">Debe ser un correo válido</div>
+                                </div>
+                                <div class="border-checkbox-section">
+                                    <div class="border-checkbox-group border-checkbox-group-primary">
+                                        <input class="border-checkbox" (click)="sendAnonymus()" type="checkbox"
+                                            id="checkbox1">
+                                        <label class="border-checkbox-label" for="checkbox1">Denuncia Anónima</label>
+                                    </div>
+                                </div>
+                                <div class="border-checkbox-section">
+                                        <div class="border-checkbox-group border-checkbox-group-primary">
+                                            <input class="border-checkbox" formControlName="terms_and_conditions" type="checkbox"
+                                                id="checkbox2">
+                                            <label class="border-checkbox-label" for="checkbox2">Acepta estar de acuerdo con nuestra política privacidad y de tratamiento de datos</label>
+                                            <div class="messages text-danger" *ngIf="form.controls.terms_and_conditions.errors?.required && sended">Debe activar esta opción</div>
+                                        </div>
+                                    </div>
+                                <br>
+                                <hr>
+                                <br>
+                                <div class="form-group form-default">
+                                    <input type="text" formControlName="first_name" class="form-control" required="">
+                                    <span class="form-bar"></span>
+                                    <label class="float-label">Nombre</label>
+                                    <div class="messages text-danger"
+                                        *ngIf="form.controls.first_name.errors?.required && sended">No puede estar vacio
+                                    </div>
+                                </div>
+                                <div class="form-group form-default">
+                                    <input type="text" formControlName="last_name" class="form-control" required="">
+                                    <span class="form-bar"></span>
+                                    <label class="float-label">Apellido</label>
+                                    <div class="messages text-danger"
+                                        *ngIf="form.controls.last_name.errors?.required && sended">No puede estar vacio
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-default">
+                                    <input type="text" formControlName="job" class="form-control" required="">
+                                    <span class="form-bar"></span>
+                                    <label class="float-label">Cargo u ocupación</label>
+                                    <div class="messages text-danger" *ngIf="form.controls.job.errors?.required && sended">
+                                        No puede estar vacio</div>
+                                </div>
+
+                                <div class="form-group form-default">
+                                    <input type="text" formControlName="phone" class="form-control" required="">
+                                    <span class="form-bar"></span>
+                                    <label class="float-label">Teléfono</label>
+                                    <div class="messages text-danger"
+                                        *ngIf="form.controls.phone.errors?.required && sended">No puede estar vacio</div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="btn-group mt-10">
+                                <button type="button" class="btn btn-secondary btn-sm" previousStep>Volver</button>
+                                <button type="button" class="btn btn-success btn-sm" (click)="send()"
+                                    [disabled]="submitted">Crear denuncia</button>
+                            </div>
+                        </div>
+                    </wizard-step>
+                </wizard>
+            </perfect-scrollbar>
+        </form>
+    </div>
+    <div class="app-modal-footer">
+        <button type="button" class="btn btn-default ripple" (click)="modalLarge.hide()">Cerrar</button>
+    </div>
+</app-modal-basic>
+
+
+<app-modal-basic #modalDenouncementCode [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Denuncia</h4>
+        <button type="button" class="close basic-close" (click)="modalDenouncementCode.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="app-modal-body">
+        <h1>Tu código de denuncia es: {{ idDenuncia }}</h1>
+    </div>
+    <div class="app-modal-footer">
+        <button type="button" class="btn btn-default ripple" (click)="modalDenouncementCode.hide()">Cerrar</button>
+    </div>
+</app-modal-basic>
+
+
+
+<section class="bg-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div *ngIf="company != null" class="jumbotron">
+                    <p class="text-center">
+                        <img [src]="company.logo" class="img-fluid" alt="">
+                    </p>
+                    <h1>{{ company.name }}</h1>
+                    <hr class="my-4">
+                    <div class="lead" [innerHTML]="company.description"></div>
+                    <hr class="my-4">
+                    <button class="btn btn-primary btn-lg" (click)="modalLarge.show()">Crear Denuncia</button> <button
+                        class="btn btn-secondary btn-lg" (click)="seeDenouncement()">Consultar Denuncia</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

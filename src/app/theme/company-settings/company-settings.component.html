@@ -1,0 +1,188 @@
+<app-modal-basic #modalLarge [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Nuevo {{currentType}}</h4>
+        <button type="button" class="close basic-close" (click)="modalLarge.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="app-modal-body">
+            <form class="form-material" [formGroup]="form" (ngSubmit)="save()">
+                    <div class="form-group form-default">
+                        <input type="text" formControlName="name" class="form-control" required="">
+                        <span class="form-bar"></span>
+                        <label class="float-label">Nombre {{currentType}}</label>
+                        <div class="messages text-danger" *ngIf="form.controls.name.errors?.required && submitted">No puede estar vacio</div>
+                    </div>
+                    <input type="hidden" formControlName="id" />
+                    <input type="hidden" formControlName="enabled" />
+            </form>
+
+    </div>
+    <div class="app-modal-footer">
+        <button type="button" class="btn btn-default ripple" (click)="modalLarge.hide()">Cerrar</button>
+        <button type="button" class="btn btn-primary ripple light" (click)="save()">Guardar</button>
+    </div>
+</app-modal-basic>
+
+<div class="page-body">
+    <div class="row">
+        <div class="col-md-6">
+            <app-card [title]="'Categorías de denuncias'" [classHeader]="true" [cardOptionBlock]="true">
+                <div class="code-header text-right">
+                    <button type="button" class="btn btn-success ripple light" (click)="create(CATEGORY_TYPE)">Agregar
+                        nueva categoría</button>
+                </div>
+                <ngx-datatable 
+                    #categories_table 
+                    class='data-table' 
+                    [columnMode]="'force'" 
+                    [headerHeight]="50"
+                    [footerHeight]="50" 
+                    [rowHeight]="'auto'"
+                    [limit]="5" 
+                    [rows]='categoryRows'
+                    >
+                    <ngx-datatable-column name="Nombre" prop="name"></ngx-datatable-column>
+                    <ngx-datatable-column name="Acciones" [maxWidth]="200">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                            <button *ngIf="!!row.editable" (click)="edit(row, CATEGORY_TYPE)" placement="bottom" ngbTooltip="Editar"
+                                class="btn btn-warning btn-icon" style="color: #333; margin-right: .5em;">
+                                <i style="margin-right:0;" class="icofont icofont-pencil"></i>
+                            </button>
+                            <button *ngIf="!!row.enabled" (click)="hideShow(row, CATEGORY_TYPE)" placement="bottom" ngbTooltip="Ocultar"
+                                class="btn btn-secondary btn-icon">
+                                <i style="margin-right:0;" class="fa fa-eye-slash"></i>
+                            </button>
+
+                            <button *ngIf="!row.enabled" (click)="hideShow(row, CATEGORY_TYPE)" placement="bottom" ngbTooltip="Mostrar"
+                                class="btn btn-info btn-icon">
+                                <i style="margin-right:0;" class="fa fa-eye"></i>
+                            </button>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </app-card>
+        </div>
+        <div class="col-md-6">
+                <app-card [title]="'Sucursales'" [classHeader]="true" [cardOptionBlock]="true">
+                    <div class="code-header text-right">
+                        <button type="button" class="btn btn-success ripple light" (click)="create(OFFICE_TYPE)">Agregar
+                            nueva sucursal</button>
+                    </div>
+                    <ngx-datatable #offices_table  class='data-table' [columnMode]="'force'"  [headerHeight]="50"
+                        [footerHeight]="50" [rowHeight]="'auto'" [limit]="5" [rows]='officeRows'>
+                        <ngx-datatable-column name="Nombre" prop="name" ></ngx-datatable-column>
+                        <ngx-datatable-column name="Acciones"  [maxWidth]="200">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
+                                let-group="group">
+                                <button (click)="edit(row, OFFICE_TYPE)" placement="bottom" ngbTooltip="Editar"
+                                    class="btn btn-warning btn-icon" style="color: #333; margin-right: .5em;">
+                                    <i style="margin-right:0;" class="icofont icofont-pencil"></i>
+                                </button>
+                                <button *ngIf="!!row.enabled" (click)="hideShow(row, OFFICE_TYPE)" placement="bottom" ngbTooltip="Ocultar"
+                                class="btn btn-secondary btn-icon">
+                                <i style="margin-right:0;" class="fa fa-eye-slash"></i>
+                            </button>
+
+                            <button *ngIf="!row.enabled" (click)="hideShow(row, OFFICE_TYPE)" placement="bottom" ngbTooltip="Mostrar"
+                                class="btn btn-info btn-icon">
+                                <i style="margin-right:0;" class="fa fa-eye"></i>
+                            </button>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </app-card>
+            </div>
+
+            <div class="col-md-6">
+                    <app-card [title]="'Áreas de denuncias'" [classHeader]="true" [cardOptionBlock]="true">
+                        <div class="code-header text-right">
+                            <button type="button" class="btn btn-success ripple light" (click)="create(AREA_TYPE)">Agregar
+                                nueva área</button>
+                        </div>
+                        <ngx-datatable #areas_table class='data-table' [columnMode]="'force'"  [headerHeight]="50"
+                            [footerHeight]="50" [rowHeight]="'auto'" [limit]="5" [rows]='areaRows'>
+                            <ngx-datatable-column name="Nombre" prop="name" ></ngx-datatable-column>
+                            <ngx-datatable-column name="Acciones"  [maxWidth]="200">
+                                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
+                                    let-group="group">
+                                    <button *ngIf="!!row.editable" (click)="edit(row, AREA_TYPE)" placement="bottom" ngbTooltip="Editar"
+                                        class="btn btn-warning btn-icon" style="color: #333; margin-right: .5em;">
+                                        <i style="margin-right:0;" class="icofont icofont-pencil"></i>
+                                    </button>
+                                    <button *ngIf="!!row.enabled" (click)="hideShow(row, AREA_TYPE)" placement="bottom" ngbTooltip="Ocultar"
+                                class="btn btn-secondary btn-icon">
+                                <i style="margin-right:0;" class="fa fa-eye-slash"></i>
+                            </button>
+
+                            <button *ngIf="!row.enabled" (click)="hideShow(row, AREA_TYPE)" placement="bottom" ngbTooltip="Mostrar"
+                                class="btn btn-info btn-icon">
+                                <i style="margin-right:0;" class="fa fa-eye"></i>
+                            </button>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </app-card>
+                </div>
+                <div class="col-md-6">
+                    <app-card [title]="'Tipos de Ingreso'" [classHeader]="true" [cardOptionBlock]="true">
+                        <div class="code-header text-right">
+                            <button type="button" class="btn btn-success ripple light" (click)="create(SOURCE_TYPE)">Agregar
+                                nuevo tipo de ingreso</button>
+                        </div>
+                        <ngx-datatable #sources_table class='data-table' [columnMode]="'force'"  [headerHeight]="50"
+                            [footerHeight]="50" [rowHeight]="'auto'" [limit]="5" [rows]='sourceRows'>
+                            <ngx-datatable-column name="Nombre" prop="name" ></ngx-datatable-column>
+                            <ngx-datatable-column name="Acciones"  [maxWidth]="200">
+                                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+                                    <button *ngIf="!!row.editable" (click)="edit(row, SOURCE_TYPE)" placement="bottom" ngbTooltip="Editar"
+                                        class="btn btn-warning btn-icon" style="color: #333; margin-right: .5em;">
+                                        <i style="margin-right:0;" class="icofont icofont-pencil"></i>
+                                    </button>
+                                    <button *ngIf="!!row.enabled" (click)="hideShow(row, SOURCE_TYPE)" placement="bottom" ngbTooltip="Ocultar"
+                                        class="btn btn-secondary btn-icon">
+                                        <i style="margin-right:0;" class="fa fa-eye-slash"></i>
+                                    </button>
+
+                                    <button *ngIf="!row.enabled" (click)="hideShow(row, SOURCE_TYPE)" placement="bottom" ngbTooltip="Mostrar"
+                                        class="btn btn-info btn-icon">
+                                        <i style="margin-right:0;" class="fa fa-eye"></i>
+                                    </button>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </app-card>
+                </div>
+
+                <div class="col-md-6">
+                    <app-card [title]="'Motivos de cierre'" [classHeader]="true" [cardOptionBlock]="true">
+                        <div class="code-header text-right">
+                            <button type="button" class="btn btn-success ripple light" (click)="create(REASON_TYPE)">Agregar
+                                nuevo motivo</button>
+                        </div>
+                        <ngx-datatable #reasons_table class='data-table' [columnMode]="'force'"  [headerHeight]="50"
+                            [footerHeight]="50" [rowHeight]="'auto'" [limit]="5" [rows]='reasonRows'>
+                            <ngx-datatable-column name="Nombre" prop="name" ></ngx-datatable-column>
+                            <ngx-datatable-column name="Acciones"  [maxWidth]="200">
+                                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
+                                    let-group="group">
+                                    <button  (click)="edit(row, REASON_TYPE)" placement="bottom" ngbTooltip="Editar"
+                                        class="btn btn-warning btn-icon" style="color: #333; margin-right: .5em;">
+                                        <i style="margin-right:0;" class="icofont icofont-pencil"></i>
+                                    </button>
+                                    <button *ngIf="!!row.enabled" (click)="hideShow(row, REASON_TYPE)" placement="bottom" ngbTooltip="Ocultar"
+                                class="btn btn-secondary btn-icon">
+                                <i style="margin-right:0;" class="fa fa-eye-slash"></i>
+                            </button>
+
+                            <button *ngIf="!row.enabled" (click)="hideShow(row, REASON_TYPE)" placement="bottom" ngbTooltip="Mostrar"
+                                class="btn btn-info btn-icon">
+                                <i style="margin-right:0;" class="fa fa-eye"></i>
+                            </button>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </app-card>
+                </div>
+    </div>
+</div>
