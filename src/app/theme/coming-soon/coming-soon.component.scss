@@ -1807,3 +1807,20 @@ html{
 
 
 /***************/
+.carousel-fade {
+	.carousel-item{
+	  opacity: 0;
+	  top: 0;
+	  left: 0;
+	  width: 100%;
+	  display: block;
+	  position: absolute !important;
+	  transition: opacity .75s ease-in-out;
+	  &:first-of-type {
+		position:relative !important;
+	  }     		
+		  &.active {
+			  opacity: 1;
+		  }
+	}
+}

@@ -13,6 +13,8 @@ export class ComingSoonComponent implements OnInit {
     public email: string = ""
     public password: string = ""
 
+    images = [1055, 194, 368].map((n) => `https://picsum.photos/id/${n}/900/500`);
+
     constructor(private api: ApiService, private router: Router) { }
 
     submit() {
@@ -48,6 +50,10 @@ export class ComingSoonComponent implements OnInit {
 
     carouselBannerLoadc() {
 
+    }
+
+    funciona(){
+        console.log("FUNCIONA")
     }
 
     public carouselBannerLoad() {
